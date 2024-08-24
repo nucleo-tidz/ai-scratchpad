@@ -1,28 +1,15 @@
-﻿using Azure.AI.OpenAI;
-using Microsoft.Extensions.Configuration;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
+﻿using Microsoft.SemanticKernel;
 
-namespace ai.scratchpad.UseCases
+namespace ai.scratchpad.UseCases.TroubleShoot
 {
-    internal class TroubleShoot(Kernel kernel,IConfiguration configuration) : ITroubleShoot
+    internal class TroubleShoot(Kernel kernel, IPromptExecutionSettingsFactory promptExecutionSettingsFactory) : ITroubleShoot
     {
-        
+
         public async Task Start(string prompt)
         {
-            AzureSearchChatExtensionConfiguration extension = new AzureSearchChatExtensionConfiguration
-            {
-                SearchEndpoint = new Uri(configuration["AzureSearchChatExtensionConfiguration:SearchEndpoint"]),
-                Authentication = new OnYourDataApiKeyAuthenticationOptions(configuration["AzureSearchChatExtensionConfiguration:AuthKey"]),
-                IndexName = "nucelotizindex"
-            };
-            AzureChatExtensionsOptions azureChatExtensionsOptions = new AzureChatExtensionsOptions { Extensions = { extension } };
-            OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new OpenAIPromptExecutionSettings();
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-            openAIPromptExecutionSettings.AzureChatExtensionsOptions = azureChatExtensionsOptions;
-#pragma warning restore SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-            var results =  kernel.InvokePromptStreamingAsync(prompt, new(openAIPromptExecutionSettings));
-            await foreach (var result in results)
+
+            IAsyncEnumerable<StreamingKernelContent> results = kernel.InvokePromptStreamingAsync(prompt, new(promptExecutionSettingsFactory.Create()));
+            await foreach (StreamingKernelContent result in results)
             {
                 Console.Write(result);
             }

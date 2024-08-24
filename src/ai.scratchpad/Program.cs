@@ -1,27 +1,26 @@
-﻿using ai.scratchpad.UseCases;
-using Microsoft.Extensions.Configuration;
+﻿using ai.scratchpad;
+using ai.scratchpad.UseCases.TroubleShoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.SemanticKernel;
 
-var host = Host.CreateDefaultBuilder(args)
+IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((config, services) =>
     {
-        services.AddTransient<Kernel>(serviceProvider =>
+        services.Configure<AzureSearchChatExtensionOptions>(config.Configuration.GetSection("AzureSearchChatExtensionOptions"))
+        .AddTransient<Kernel>(serviceProvider =>
         {
-            var kernelBuilder = Kernel.CreateBuilder();
-            kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-35-turbo",
+            IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+             kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-35-turbo",
                 config.Configuration["AzureOpenAI:Endpoint"],
                 config.Configuration["AzureOpenAI:AuthKey"]);
-            var kernel = kernelBuilder.Build();
+            Kernel kernel = kernelBuilder.Build();
             return kernel;
-        });
-        services.AddTransient<ITroubleShoot, TroubleShoot>();
+        }).AddTransient<IPromptExecutionSettingsFactory, PromptExecutionSettingsFactory>()
+          .AddTransient<ITroubleShoot, TroubleShoot>();
     }).Build();
 
-
-
-var troubleShootService = host.Services.GetRequiredService<ITroubleShoot>();
+ITroubleShoot troubleShootService = host.Services.GetRequiredService<ITroubleShoot>();
 while (true)
 {
     troubleShootService.Start(Console.ReadLine()).Wait();
