@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ai.scratchpad.UseCases.Summarise
+namespace ai.scratchpad.UseCases
 {
-    internal interface ISummary
+    internal interface ITroubleShoot
     {
-        Task Summarise(string text);
+        Task Start(string prompt);
     }
 }
