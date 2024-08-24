@@ -13,17 +13,12 @@ var host = Host.CreateDefaultBuilder(args)
             kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-35-turbo",
                 config.Configuration["AzureOpenAI:Endpoint"],
                 config.Configuration["AzureOpenAI:AuthKey"]);
-
             var kernel = kernelBuilder.Build();
             return kernel;
         });
         services.AddTransient<ITroubleShoot, TroubleShoot>();
     }).Build();
-var configuration = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-           .AddEnvironmentVariables()
-           .Build();
+
 
 
 var troubleShootService = host.Services.GetRequiredService<ITroubleShoot>();
