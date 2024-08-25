@@ -2,7 +2,6 @@
 {
     public enum PromptType
     {
-        Simple,
         Specific,
     }
 
@@ -12,7 +11,8 @@
         {
 
             { PromptType.Specific, @"Classify the following text as one of the following: Valid, Invalid reason when an order to reposition empty container is modified, 
-               give response in json with two properties Type and summary where type can have values like Valid and summary will have a brief summary text , json string should be serializable in C# and should not contian any special chrachter text: {{$request}}" }, 
+               give response in json with two properties Type and summary where type can have values like Valid and summary will have a brief summary text ,
+               json string should be serializable in C# and should not contain any special character text: {{$request}}" }, 
             
         };
     }
