@@ -1,4 +1,5 @@
 ﻿using ai.scratchpad;
+using ai.scratchpad.UseCases.Classification;
 using ai.scratchpad.UseCases.TroubleShoot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,17 +12,19 @@ IHost host = Host.CreateDefaultBuilder(args)
         .AddTransient<Kernel>(serviceProvider =>
         {
             IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
-             kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-35-turbo",
+             kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-4o",
                 config.Configuration["AzureOpenAI:Endpoint"],
                 config.Configuration["AzureOpenAI:AuthKey"]);
             Kernel kernel = kernelBuilder.Build();
             return kernel;
         }).AddTransient<IPromptExecutionSettingsFactory, PromptExecutionSettingsFactory>()
-          .AddTransient<ITroubleShoot, TroubleShoot>();
+          .AddTransient<ITroubleShoot, TroubleShoot>()
+        .AddTransient<IClassifier, Classifier>();
     }).Build();
 
-ITroubleShoot troubleShootService = host.Services.GetRequiredService<ITroubleShoot>();
+IClassifier aiservice = host.Services.GetRequiredService<IClassifier>();
 while (true)
 {
-    troubleShootService.Start(Console.ReadLine()).Wait();
+    Console.WriteLine("Enter text to classify:");
+    aiservice.Classify(Console.ReadLine()).Wait();
 }
