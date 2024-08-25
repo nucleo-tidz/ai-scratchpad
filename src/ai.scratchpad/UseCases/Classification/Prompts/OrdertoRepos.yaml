@@ -1,0 +1,11 @@
+﻿name: OrderToRepositionEmptyContainer
+template: |
+  Classify the following text as one of the following: Valid, Invalid reason when an order to reposition empty container is modified,give response in json with two properties Type and summary where type can have values like Valid and summary will have a brief summary text ,json string should be serializable in C# and should not contain any special character text: {{$request}}.  
+template_format: semantic-kernel
+description: check manual override for repositioning
+input_variables:
+  - name: request
+    description: The text to be checked for justification of manual override.
+    is_required: true
+output_variable:
+  description: A Json object classifying the reason as valid or not.

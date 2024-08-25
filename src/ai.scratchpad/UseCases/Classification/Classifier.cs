@@ -7,10 +7,10 @@ namespace ai.scratchpad.UseCases.Classification
     {
         public async Task Classify(string text)
         {
-            PromptTemplate template = new();
+            var prompt = File.ReadAllText("UseCases\\Classification\\Prompts\\OrdertoRepos.yaml");
+            var function = kernel.CreateFunctionFromPromptYaml(prompt);
             KernelArguments args = new KernelArguments() { { "request", text } };
-            PromptType selectedPrompt = PromptType.Specific;
-            FunctionResult result = await kernel.InvokePromptAsync(template.prompts[selectedPrompt], args);
+            FunctionResult result = await kernel.InvokeAsync(function, args);
             //Response response = JsonSerializer.Deserialize<Response>(result.GetValue<string>());
             Console.WriteLine(result.GetValue<string>());
         }
