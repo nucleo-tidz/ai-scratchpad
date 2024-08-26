@@ -9,3 +9,7 @@ input_variables:
     is_required: true
 output_variable:
   description: A Json object classifying the reason as valid or not.
+execution_settings:
+   gpt-4-turbo:
+       model_id: gpt-4-turbo
+       response_format: json_object

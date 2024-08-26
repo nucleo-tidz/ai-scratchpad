@@ -14,7 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
              kernelBuilder.Services.AddAzureOpenAIChatCompletion("gpt-4o",
                 config.Configuration["AzureOpenAI:Endpoint"],
-                config.Configuration["AzureOpenAI:AuthKey"]);
+                config.Configuration["AzureOpenAI:AuthKey"], "gpt-4-turbo", "gpt-4-turbo");
             Kernel kernel = kernelBuilder.Build();
             return kernel;
         }).AddTransient<IPromptExecutionSettingsFactory, PromptExecutionSettingsFactory>()
