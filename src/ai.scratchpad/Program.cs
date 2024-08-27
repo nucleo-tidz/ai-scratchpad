@@ -15,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
 
             #region Geoogle Gemini
 #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-             kernelBuilder.Services.AddGoogleAIGeminiChatCompletion("gemini-1.0-pro", "AIzaSyB__RPh0X68ufHHPE9OLHnlSq4UDnz1z4c",serviceId: "gpt-4-turbo");
+             kernelBuilder.Services.AddGoogleAIGeminiChatCompletion("gemini-1.0-pro", config.Configuration["GoogleApiKey"],serviceId: "gpt-4-turbo");
 #pragma warning restore SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
             #endregion
 
