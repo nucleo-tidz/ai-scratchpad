@@ -2,6 +2,6 @@
 {
     public interface IClassifier
     {
-        Task Classify(string text);
+        Task Classify(string input);
     }
 }

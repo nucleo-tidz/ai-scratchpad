@@ -1,6 +1,6 @@
 ﻿name: OrderToRepositionEmptyContainer
 template: |
-  Classify the following text as one of the following: Valid, Invalid reason when an order to reposition empty container is modified,give response in json with two properties Type and summary where type can have values like Valid and summary will have a brief summary text ,json string should be serializable in C# and should not contain any special character text: {{$request}}.  
+  Classify the given text as either "Valid" or "Invalid" based on the reason provided for modifying an order to reposition an empty container. Consider The order is generated automatically using forecasts, demand, and supply data, so any modification should have a very valid reason. give response in json with two properties Type and detailed summary where type can have values like Valid and summary will have a brief summary text , text: {{$request}}.
 template_format: semantic-kernel
 description: check manual override for repositioning
 input_variables:

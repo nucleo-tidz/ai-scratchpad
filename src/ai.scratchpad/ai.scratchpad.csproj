@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.17.2" />
     <PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.17.2" />
+	  <PackageReference Include="Microsoft.SemanticKernel.Connectors.Google" Version="1.17.1-alpha"></PackageReference>
   </ItemGroup>
 
   <ItemGroup>
